@@ -1,0 +1,62 @@
+#include <iostream>
+#include <locale>
+
+using namespace std;
+
+// Функция 1: Изменение активности (byValue)
+double changeActivity(double oldV, double newV) {
+    if (oldV == 0) return 0.0;
+    return ((newV - oldV) / oldV) * 100.0;
+}
+
+// Функция 2: Доход за просмотры (byReference)
+void calcRevenue(const int v, const double cpm, double& rev) {
+    rev = (v / 1000.0) * cpm;
+}
+
+// Функция 3: Рост подписчиков (byPointer)
+void boostSubs(int* subs, int newSubs) {
+    int added = newSubs - *subs;
+    *subs = newSubs;
+}
+
+// Функция 4: Средние просмотры за 7 дней (byReference)
+void avgViews(const int weekV[], double& avg) {
+    int sum = 0;
+    for (int i = 0; i < 7; i++) {
+        sum += weekV[i];
+    }
+    avg = sum / 7.0;
+}
+
+int main() {
+    setlocale(LC_ALL, "ru");
+
+    int subs = 1500, newSubs = 1957;
+    int oldV = 5000, newV = 7200;
+    int weekV[7] = {5000, 5500, 6200, 4800, 7300, 7100, 6900};
+    double cpm = 2.5, rev = 0.0;
+    double actGrowth, avgV;
+
+    // Передача по значению
+    cout << "До вызова changeActivity: oldV = " << oldV << ", newV = " << newV << endl;
+    actGrowth = changeActivity(oldV, newV);
+    cout << "Процент роста активности: " << actGrowth << "% (передача по значению)\n\n";
+
+    // Передача по ссылке
+    cout << "До вызова calcRevenue: rev = " << rev << endl;
+    calcRevenue(newV, cpm, rev);
+    cout << "После вызова calcRevenue: rev = " << rev << " (передача по ссылке)\n\n";
+
+    // Передача по указателю
+    cout << "До вызова boostSubs: subs = " << subs << endl;
+    boostSubs(&subs, newSubs);
+    cout << "После вызова boostSubs: subs = " << subs << " (передача по указателю)\n\n";
+
+    // Средние просмотры за неделю (по ссылке)
+    cout << "До вызова avgViews: avgV = " << avgV << endl;
+    avgViews(weekV, avgV);
+    cout << "После вызова avgViews: avgV = " << avgV << " (передача по ссылке)\n";
+
+    return 0;
+}
