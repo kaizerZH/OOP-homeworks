@@ -1,0 +1,103 @@
+class BakuganData {
+    String attribute;
+    int gPower;
+    String form;
+    String specialAttack;
+
+    BakuganData(String attribute, int gPower, String form, String specialAttack) {
+        this.attribute = attribute;
+        this.gPower = gPower;
+        this.form = form;
+        this.specialAttack = specialAttack;
+    }
+
+    void display(String name) {
+        System.out.println("=== " + name + " ===");
+        System.out.println("Attribute: " + attribute);
+        System.out.println("G-Power: " + gPower + " G");
+        System.out.println("Form: " + form);
+        System.out.println("Special Attack: " + specialAttack);
+        System.out.println();
+    }
+}
+
+class Dragonoid {
+    BakuganData data;
+
+    Dragonoid(String attribute, int gPower, String form, String specialAttack) {
+        data = new BakuganData(attribute, gPower, form, specialAttack);
+    }
+
+    void display() {
+        data.display("Dragonoid");
+    }
+}
+
+class Preyas {
+    BakuganData data;
+
+    Preyas(String attribute, int gPower, String form, String specialAttack) {
+        data = new BakuganData(attribute, gPower, form, specialAttack);
+    }
+
+    void display() {
+        data.display("Preyas");
+    }
+}
+
+class Skyress {
+    BakuganData data;
+
+    Skyress(String attribute, int gPower, String form, String specialAttack) {
+        data = new BakuganData(attribute, gPower, form, specialAttack);
+    }
+
+    void display() {
+        data.display("Skyress");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dragonoid dragonoid = new Dragonoid("Pyrus", 450, "Red Dragon", "Dragon Fire");
+        Preyas preyas = new Preyas("Aquos", 400, "Reptilian", "Triple Threat");
+        Skyress skyress = new Skyress("Ventus", 450, "Giant green Phoenix", "Storm Strike");
+
+        // Вывод исходных значений
+        System.out.println("Before modification:");
+        dragonoid.display();
+        preyas.display();
+        skyress.display();
+
+        // Изменение данных Dragonoid
+        System.out.println("\nAssigning Preyas values to Dragonoid:");
+        dragonoid.data.attribute = preyas.data.attribute;
+        dragonoid.data.gPower = preyas.data.gPower;
+        dragonoid.data.form = preyas.data.form;
+        dragonoid.data.specialAttack = preyas.data.specialAttack;
+        dragonoid.display();
+
+        // Модификация Skyress и Dragonoid
+        System.out.println("\nModifying Skyress and Dragonoid references:");
+        modifyReferences(skyress, dragonoid);
+        skyress.display();
+        dragonoid.display();
+
+        // Вывод итоговых значений
+        System.out.println("\nAfter modification:");
+        preyas.display();
+        skyress.display();
+    }
+
+    public static void modifyReferences(Skyress skyress, Dragonoid dragonoid) {
+        skyress.data.attribute = dragonoid.data.attribute;
+        skyress.data.gPower = dragonoid.data.gPower;
+        skyress.data.form = dragonoid.data.form;
+        skyress.data.specialAttack = dragonoid.data.specialAttack;
+
+        dragonoid.data.attribute = "Modified " + dragonoid.data.attribute;
+        dragonoid.data.gPower += 150;
+        dragonoid.data.form = "Modified " + dragonoid.data.form;
+        dragonoid.data.specialAttack = "Modified " + dragonoid.data.specialAttack;
+    }
+}
