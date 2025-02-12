@@ -1,0 +1,121 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+class LinkedList {
+private:
+    Node* head;
+
+public:
+    // Конструктор, который инициализирует пустой список
+    LinkedList() {
+        head = nullptr;
+    }
+
+    // Функция добавления нового узла в конец списка
+    void append(int data) {
+        Node* newNode = new Node();  // Создаем новый узел
+        newNode->data = data;        // Присваиваем значение новому узлу
+        newNode->next = nullptr;     // Устанавливаем указатель на следующий узел в nullptr
+
+        if (head == nullptr) {
+            head = newNode;  // Если список пуст, новый узел становится первым
+        } else {
+            Node* temp = head;
+            while (temp->next != nullptr) {
+                temp = temp->next;  // Идем до последнего узла
+            }
+            temp->next = newNode;  // Добавляем новый узел в конец
+        }
+    }
+
+    // Функция добавления нового узла в начало списка
+    void prepend(int data) {
+        Node* newNode = new Node();  // Создаем новый узел
+        newNode->data = data;        // Присваиваем значение новому узлу
+        newNode->next = head;         // Новый узел указывает на текущую голову списка
+        head = newNode;               // Новый узел становится головой списка
+    }
+
+    // Функция вывода всех значений в списке
+    void printList() {
+        Node* temp = head;
+        while (temp != nullptr) {
+            cout << temp->data << " ";  // Печатаем данные узла
+            temp = temp->next;          // Переходим к следующему узлу
+        }
+        cout << endl;
+    }
+
+    // Функция удаления узла на определенной позиции
+    void deleteAt(int position) {
+        if (position < 0) return;  // Некорректная позиция
+
+        Node* temp = head;
+
+        // Если нужно удалить первый элемент
+        if (position == 0 && temp != nullptr) {
+            head = temp->next;  // Голова списка сдвигается на следующий элемент
+            delete temp;        // Удаляем старую голову
+            return;
+        }
+
+        // Находим узел перед нужной позицией
+        for (int i = 0; temp != nullptr && i < position - 1; i++) {
+            temp = temp->next;
+        }
+
+        // Если позиция больше длины списка
+        if (temp == nullptr || temp->next == nullptr) return;
+
+        // Узел, который нужно удалить
+        Node* nodeToDelete = temp->next;
+        temp->next = temp->next->next;  // Перепривязываем указатель предыдущего узла
+        delete nodeToDelete;  // Удаляем узел
+    }
+
+    // Функция нахождения индекса по значению
+    int indexOf(int data) {
+        Node* temp = head;
+        int index = 0;
+        while (temp != nullptr) {
+            if (temp->data == data) {
+                return index;  // Возвращаем индекс найденного узла
+            }
+            temp = temp->next;
+            index++;
+        }
+        return -1;  // Если значение не найдено, возвращаем -1
+    }
+};
+
+int main() {
+    LinkedList list;
+
+    list.append(10);
+    list.append(20);
+    list.append(30);
+    list.append(40);
+    cout << "Список после добавления элементов: ";
+    list.printList();
+
+    // Вставка на позицию 2
+    list.prepend(5);  // Добавление в начало
+    cout << "Список после добавления элемента в начало: ";
+    list.printList();
+
+    // Удаление элемента на позиции 3
+    list.deleteAt(3);
+    cout << "Список после удаления элемента на позиции 3: ";
+    list.printList();
+
+    // Поиск индекса значения 20
+    int index = list.indexOf(20);
+    cout << "Индекс элемента со значением 20: " << index << endl;
+
+    return 0;
+}
